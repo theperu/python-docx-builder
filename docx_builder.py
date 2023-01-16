@@ -11,8 +11,10 @@ document = Document('template.docx')
 # replace placeholders with data from JSON
 for paragraph in document.paragraphs:
     for run in paragraph.runs:
+        #print(run.text)
         for key, value in data.items():
-            run.text = run.text.replace('{{'+key+'}}', value)
+            if key in run.text:
+                run.text = run.text.replace(key, value)
 
 # Loop through tables in the document
 for table in document.tables:
@@ -26,7 +28,8 @@ for table in document.tables:
                 for run in paragraph.runs:
                     # Replace placeholders with data
                     for key, value in data.items():
-                        run.text = run.text.replace('{{' + key + '}}', value)
+                        if key in run.text:
+                            run.text = run.text.replace(key, value)
 
 # Loop through sections in the document
 for section in document.sections:
@@ -38,7 +41,7 @@ for section in document.sections:
             for run in paragraph.runs:
                 # Replace placeholders with data
                 for key, value in data.items():
-                    run.text = run.text.replace('{{' + key + '}}', value)
+                    run.text = run.text.replace(key, value)
 
 # Save the modified document
 document.save('filled_document.docx')
